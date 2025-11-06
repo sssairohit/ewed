@@ -1,47 +1,28 @@
 import React from 'react';
+import type { CertificateData } from '../App';
 
 interface InputFormProps {
-  userName: string;
-  setUserName: (name: string) => void;
-  celebrityName: string;
-  setCelebrityName: (name: string) => void;
+  data: CertificateData;
+  onDataChange: <K extends keyof CertificateData>(key: K, value: CertificateData[K]) => void;
   onUserPhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  userPhotoPreview: string | null;
-  userVows: string;
-  setUserVows: (vows: string) => void;
-  celebrityVows: string;
-  setCelebrityVows: (vows: string) => void;
   onSubmit: () => void;
   isLoading: boolean;
-  nameFont: string;
-  setNameFont: (font: string) => void;
-  vowsFont: string;
-  setVowsFont: (font: string) => void;
 }
 
 export const InputForm: React.FC<InputFormProps> = ({ 
-  userName,
-  setUserName,
-  celebrityName, 
-  setCelebrityName, 
+  data,
+  onDataChange,
+  onUserPhotoChange,
   onSubmit, 
   isLoading, 
-  onUserPhotoChange,
-  userPhotoPreview,
-  userVows,
-  setUserVows,
-  celebrityVows,
-  setCelebrityVows,
-  nameFont,
-  setNameFont,
-  vowsFont,
-  setVowsFont,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
   };
   
+  const isUserPhotoPlaceholder = data.userPhoto.startsWith('data:image/svg+xml');
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <h2 className="text-2xl font-bold text-center text-white mb-4">Customize Your Certificate</h2>
@@ -51,9 +32,11 @@ export const InputForm: React.FC<InputFormProps> = ({
           Upload Your Photo
         </label>
         <div className="flex items-center gap-4 mt-1">
-          {userPhotoPreview && (
-            <img src={userPhotoPreview} alt="Your preview" className="w-16 h-16 rounded-full object-cover border-2 border-gray-600"/>
-          )}
+          <img 
+            src={data.userPhoto} 
+            alt="Your preview" 
+            className={`w-16 h-16 rounded-full object-cover border-2 ${isUserPhotoPlaceholder ? 'border-gray-700' : 'border-gray-500'}`}
+          />
           <input
             id="user-photo"
             type="file"
@@ -72,8 +55,8 @@ export const InputForm: React.FC<InputFormProps> = ({
         <input
           id="user-name"
           type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          value={data.userName}
+          onChange={(e) => onDataChange('userName', e.target.value)}
           placeholder="e.g., Alex Doe"
           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           disabled={isLoading}
@@ -87,8 +70,8 @@ export const InputForm: React.FC<InputFormProps> = ({
         <input
           id="celebrity-name"
           type="text"
-          value={celebrityName}
-          onChange={(e) => setCelebrityName(e.target.value)}
+          value={data.celebrityName}
+          onChange={(e) => onDataChange('celebrityName', e.target.value)}
           placeholder="e.g., Keanu Reeves"
           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           disabled={isLoading}
@@ -102,8 +85,8 @@ export const InputForm: React.FC<InputFormProps> = ({
           </label>
           <select
             id="name-font"
-            value={nameFont}
-            onChange={(e) => setNameFont(e.target.value)}
+            value={data.nameFont}
+            onChange={(e) => onDataChange('nameFont', e.target.value)}
             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             disabled={isLoading}
           >
@@ -118,8 +101,8 @@ export const InputForm: React.FC<InputFormProps> = ({
           </label>
           <select
             id="vows-font"
-            value={vowsFont}
-            onChange={(e) => setVowsFont(e.target.value)}
+            value={data.vowsFont}
+            onChange={(e) => onDataChange('vowsFont', e.target.value)}
             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             disabled={isLoading}
           >
@@ -136,8 +119,8 @@ export const InputForm: React.FC<InputFormProps> = ({
         </label>
         <textarea
           id="user-vows"
-          value={userVows}
-          onChange={(e) => setUserVows(e.target.value)}
+          value={data.userVows}
+          onChange={(e) => onDataChange('userVows', e.target.value)}
           placeholder="I promise to always..."
           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           rows={3}
@@ -151,8 +134,8 @@ export const InputForm: React.FC<InputFormProps> = ({
         </label>
         <textarea
           id="celebrity-vows"
-          value={celebrityVows}
-          onChange={(e) => setCelebrityVows(e.target.value)}
+          value={data.celebrityVows}
+          onChange={(e) => onDataChange('celebrityVows', e.target.value)}
           placeholder="I vow to cherish you..."
           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           rows={3}
@@ -171,10 +154,10 @@ export const InputForm: React.FC<InputFormProps> = ({
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Generating...
+            Generating AI Content...
             </>
         ) : (
-          'Generate Certificate'
+          'Generate & Finalize Certificate'
         )}
       </button>
     </form>

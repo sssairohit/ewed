@@ -1,6 +1,8 @@
 import React from 'react';
 
 interface InputFormProps {
+  userName: string;
+  setUserName: (name: string) => void;
   celebrityName: string;
   setCelebrityName: (name: string) => void;
   onUserPhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,6 +16,8 @@ interface InputFormProps {
 }
 
 export const InputForm: React.FC<InputFormProps> = ({ 
+  userName,
+  setUserName,
   celebrityName, 
   setCelebrityName, 
   onSubmit, 
@@ -51,6 +55,21 @@ export const InputForm: React.FC<InputFormProps> = ({
             disabled={isLoading}
           />
         </div>
+      </div>
+
+      <div>
+        <label htmlFor="user-name" className="block text-sm font-medium text-gray-300 mb-2">
+          Your Name
+        </label>
+        <input
+          id="user-name"
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="e.g., Alex Doe"
+          className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          disabled={isLoading}
+        />
       </div>
 
       <div>

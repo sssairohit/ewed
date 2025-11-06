@@ -12,6 +12,8 @@ interface CertificateData {
   witnessStatement: string;
   userVows: string;
   celebrityVows: string;
+  nameFont: string;
+  vowsFont: string;
 }
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
   const [userPhotoPreview, setUserPhotoPreview] = useState<string | null>(null);
   const [userVows, setUserVows] = useState('');
   const [celebrityVows, setCelebrityVows] = useState('');
+  const [nameFont, setNameFont] = useState('font-script');
+  const [vowsFont, setVowsFont] = useState('font-serif');
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,6 +66,8 @@ function App() {
         witnessStatement,
         userVows,
         celebrityVows,
+        nameFont,
+        vowsFont,
       });
 
     } catch (err: any) {
@@ -96,6 +102,8 @@ function App() {
     setUserPhotoPreview(null);
     setUserVows('');
     setCelebrityVows('');
+    setNameFont('font-script');
+    setVowsFont('font-serif');
     setError(null);
     // Also reset file input
     const fileInput = document.getElementById('user-photo') as HTMLInputElement;
@@ -131,6 +139,10 @@ function App() {
               setCelebrityVows={setCelebrityVows}
               onSubmit={handleSubmit}
               isLoading={isLoading}
+              nameFont={nameFont}
+              setNameFont={setNameFont}
+              vowsFont={vowsFont}
+              setVowsFont={setVowsFont}
             />
           </div>
         ) : (

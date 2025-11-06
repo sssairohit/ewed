@@ -8,6 +8,8 @@ interface CertificateData {
   witnessStatement: string;
   userVows: string;
   celebrityVows: string;
+  nameFont: string;
+  vowsFont: string;
 }
 
 interface CertificateProps {
@@ -32,7 +34,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
   return (
     <div ref={ref} className="bg-amber-50 text-stone-800 p-6 md:p-10 shadow-2xl rounded-lg border-4 border-amber-900/50 w-full max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
       <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-amber-900 tracking-wider">
+        <h1 className="text-4xl md:text-5xl font-bold text-amber-900 tracking-wider font-serif">
           Certificate of Matrimony
         </h1>
         <p className="text-stone-600 mt-2 italic">A Union Forged in Fate</p>
@@ -49,7 +51,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
             alt={data.userName}
             className="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover border-4 border-amber-800 shadow-lg mx-auto"
           />
-          <h2 className="text-2xl md:text-3xl font-semibold mt-4 text-stone-900">{data.userName}</h2>
+          <h2 className={`text-2xl md:text-3xl font-semibold mt-4 text-stone-900 ${data.nameFont}`}>{data.userName}</h2>
         </div>
         
         <WeddingRingsIcon className="w-20 h-20 md:w-24 md:h-24 text-amber-800" />
@@ -60,7 +62,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
             alt={data.celebrityName}
             className="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover border-4 border-amber-800 shadow-lg mx-auto"
           />
-          <h2 className="text-2xl md:text-3xl font-semibold mt-4 text-stone-900">{data.celebrityName}</h2>
+          <h2 className={`text-2xl md:text-3xl font-semibold mt-4 text-stone-900 ${data.nameFont}`}>{data.celebrityName}</h2>
         </div>
       </div>
       
@@ -72,11 +74,11 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
         <div className="flex flex-col md:flex-row gap-8 justify-center text-center">
           <div className="flex-1">
             <h3 className="font-bold text-lg text-stone-800 mb-2">{data.userName}'s Vows</h3>
-            <p className="italic text-stone-600">"{data.userVows}"</p>
+            <p className={`italic text-stone-600 ${data.vowsFont}`}>"{data.userVows}"</p>
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-lg text-stone-800 mb-2">{data.celebrityName}'s Vows</h3>
-            <p className="italic text-stone-600">"{data.celebrityVows}"</p>
+            <p className={`italic text-stone-600 ${data.vowsFont}`}>"{data.celebrityVows}"</p>
           </div>
         </div>
       </div>
@@ -87,7 +89,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
       
       <div className="mt-16 flex flex-col items-end">
         <div className="w-64 text-center">
-            <p className="text-6xl text-stone-900 -mb-4">Batman</p>
+            <p className="font-script text-6xl text-stone-900 -mb-4">Batman</p>
             <hr className="border-t-2 border-stone-600"/>
             <p className="text-sm text-stone-600 mt-1">Witness, The Dark Knight</p>
         </div>

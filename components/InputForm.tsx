@@ -13,6 +13,10 @@ interface InputFormProps {
   setCelebrityVows: (vows: string) => void;
   onSubmit: () => void;
   isLoading: boolean;
+  nameFont: string;
+  setNameFont: (font: string) => void;
+  vowsFont: string;
+  setVowsFont: (font: string) => void;
 }
 
 export const InputForm: React.FC<InputFormProps> = ({ 
@@ -28,6 +32,10 @@ export const InputForm: React.FC<InputFormProps> = ({
   setUserVows,
   celebrityVows,
   setCelebrityVows,
+  nameFont,
+  setNameFont,
+  vowsFont,
+  setVowsFont,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +95,41 @@ export const InputForm: React.FC<InputFormProps> = ({
         />
       </div>
       
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex-1">
+          <label htmlFor="name-font" className="block text-sm font-medium text-gray-300 mb-2">
+            Name Font Style
+          </label>
+          <select
+            id="name-font"
+            value={nameFont}
+            onChange={(e) => setNameFont(e.target.value)}
+            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            disabled={isLoading}
+          >
+            <option value="font-script">Cursive (Great Vibes)</option>
+            <option value="font-serif">Classic (Playfair Display)</option>
+            <option value="font-sans">Modern (Epilogue)</option>
+          </select>
+        </div>
+        <div className="flex-1">
+          <label htmlFor="vows-font" className="block text-sm font-medium text-gray-300 mb-2">
+            Vows Font Style
+          </label>
+          <select
+            id="vows-font"
+            value={vowsFont}
+            onChange={(e) => setVowsFont(e.target.value)}
+            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            disabled={isLoading}
+          >
+            <option value="font-serif">Classic (Playfair Display)</option>
+            <option value="font-sans">Modern (Epilogue)</option>
+            <option value="font-script">Cursive (Great Vibes)</option>
+          </select>
+        </div>
+      </div>
+
       <div>
         <label htmlFor="user-vows" className="block text-sm font-medium text-gray-300 mb-2">
           Your Vows

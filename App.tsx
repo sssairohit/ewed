@@ -14,16 +14,32 @@ interface CertificateData {
 
 const App: React.FC = () => {
   const [celebrityInput, setCelebrityInput] = useState<string>('');
+  const [userPhoto, setUserPhoto] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const defaultUserPhoto = `https://picsum.photos/seed/you/400/400`;
+
   const [certificateData, setCertificateData] = useState<CertificateData>({
     userName: "Your Name",
-    userPhoto: `https://picsum.photos/seed/you/400/400`,
+    userPhoto: defaultUserPhoto,
     celebrityName: "A Celebrity",
     celebrityPhoto: `https://picsum.photos/seed/celebrity/400/400`,
     witnessStatement: "In the shadows of Gotham, I have observed this union. It is a beacon in the night. This bond is now under my watch. Justice has been served.",
   });
+
+  const handleUserPhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserPhoto(reader.result as string);
+        // Also update the certificate in real-time
+        setCertificateData(prev => ({ ...prev, userPhoto: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleGenerateCertificate = useCallback(async () => {
     if (!celebrityInput.trim()) {
@@ -43,7 +59,7 @@ const App: React.FC = () => {
       
       setCertificateData({
         userName: "Your Name",
-        userPhoto: `https://picsum.photos/seed/you/400/400`,
+        userPhoto: userPhoto || defaultUserPhoto,
         celebrityName: celebrityInput,
         celebrityPhoto: celebrityPhotoUrl,
         witnessStatement: statement,
@@ -54,7 +70,7 @@ const App: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [celebrityInput]);
+  }, [celebrityInput, userPhoto, defaultUserPhoto]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center">
@@ -70,6 +86,8 @@ const App: React.FC = () => {
           <InputForm
             celebrityName={celebrityInput}
             setCelebrityName={setCelebrityInput}
+            onUserPhotoChange={handleUserPhotoChange}
+            userPhotoPreview={userPhoto}
             onSubmit={handleGenerateCertificate}
             isLoading={isLoading}
           />
@@ -78,7 +96,7 @@ const App: React.FC = () => {
       </div>
        <footer className="text-center mt-8 text-gray-500 text-sm">
         <p>This is for entertainment purposes only. Not a legally binding document.</p>
-        <p>Photos are placeholders from picsum.photos.</p>
+        <p>Celebrity photos are AI-generated. Your photo is from your upload or a placeholder.</p>
       </footer>
     </div>
   );

@@ -4,19 +4,48 @@ import React from 'react';
 interface InputFormProps {
   celebrityName: string;
   setCelebrityName: (name: string) => void;
+  onUserPhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  userPhotoPreview: string | null;
   onSubmit: () => void;
   isLoading: boolean;
 }
 
-export const InputForm: React.FC<InputFormProps> = ({ celebrityName, setCelebrityName, onSubmit, isLoading }) => {
+export const InputForm: React.FC<InputFormProps> = ({ 
+  celebrityName, 
+  setCelebrityName, 
+  onSubmit, 
+  isLoading, 
+  onUserPhotoChange,
+  userPhotoPreview 
+}) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
   };
   
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <h2 className="text-2xl font-bold text-center text-white mb-4">Customize Your Certificate</h2>
+      
+      <div>
+        <label htmlFor="user-photo" className="block text-sm font-medium text-gray-300 mb-2">
+          Upload Your Photo
+        </label>
+        <div className="flex items-center gap-4 mt-1">
+          {userPhotoPreview && (
+            <img src={userPhotoPreview} alt="Your preview" className="w-16 h-16 rounded-full object-cover border-2 border-gray-600"/>
+          )}
+          <input
+            id="user-photo"
+            type="file"
+            accept="image/*"
+            onChange={onUserPhotoChange}
+            className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-gray-200 hover:file:bg-gray-500 cursor-pointer"
+            disabled={isLoading}
+          />
+        </div>
+      </div>
+
       <div>
         <label htmlFor="celebrity-name" className="block text-sm font-medium text-gray-300 mb-2">
           Enter Celebrity Name
@@ -31,10 +60,11 @@ export const InputForm: React.FC<InputFormProps> = ({ celebrityName, setCelebrit
           disabled={isLoading}
         />
       </div>
+
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-md flex items-center justify-center transition-colors duration-300"
+        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-md flex items-center justify-center transition-colors duration-300 !mt-8"
       >
         {isLoading ? (
             <>

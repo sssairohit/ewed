@@ -1,8 +1,10 @@
-
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Certificate } from './components/Certificate';
 import { InputForm } from './components/InputForm';
 import { generateBatmanWitnessStatement, generateCelebrityImage } from './services/geminiService';
+
+// Let TypeScript know html2canvas is available globally
+declare const html2canvas: any;
 
 interface CertificateData {
   userName: string;
@@ -17,6 +19,7 @@ const App: React.FC = () => {
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const certificateRef = useRef<HTMLDivElement>(null);
 
   const defaultUserPhoto = `https://picsum.photos/seed/you/400/400`;
 
@@ -72,6 +75,20 @@ const App: React.FC = () => {
     }
   }, [celebrityInput, userPhoto, defaultUserPhoto]);
 
+  const handleDownload = () => {
+    if (certificateRef.current) {
+      html2canvas(certificateRef.current, {
+        backgroundColor: null, // Use transparent background
+        scale: 2, // Increase resolution for better quality
+      }).then((canvas: HTMLCanvasElement) => {
+        const link = document.createElement('a');
+        link.download = 'e-wed-certificate.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center">
       <header className="text-center mb-8">
@@ -79,8 +96,14 @@ const App: React.FC = () => {
         <p className="text-gray-400 mt-2">Create your dream marriage certificate, witnessed by the Dark Knight himself.</p>
       </header>
       <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-8">
-        <main className="w-full lg:w-2/3 flex items-center justify-center">
-          <Certificate data={certificateData} />
+        <main className="w-full lg:w-2/3 flex flex-col items-center justify-center gap-6">
+          <Certificate ref={certificateRef} data={certificateData} />
+          <button 
+            onClick={handleDownload}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+          >
+            Download Certificate
+          </button>
         </main>
         <aside className="w-full lg:w-1/3 bg-gray-800 p-6 rounded-lg shadow-xl h-fit">
           <InputForm

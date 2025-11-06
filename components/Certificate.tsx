@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface CertificateData {
   userName: string;
@@ -18,10 +18,9 @@ const HeartIcon: React.FC = () => (
     </svg>
 );
 
-
-export const Certificate: React.FC<CertificateProps> = ({ data }) => {
+export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data }, ref) => {
   return (
-    <div className="bg-amber-50 text-stone-800 p-6 md:p-10 shadow-2xl rounded-lg border-4 border-amber-900/50 w-full max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
+    <div ref={ref} className="bg-amber-50 text-stone-800 p-6 md:p-10 shadow-2xl rounded-lg border-4 border-amber-900/50 w-full max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
       <div className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold text-amber-900 tracking-wider">
           Certificate of Matrimony
@@ -73,4 +72,4 @@ export const Certificate: React.FC<CertificateProps> = ({ data }) => {
 
     </div>
   );
-};
+});

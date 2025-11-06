@@ -88,6 +88,10 @@ const App: React.FC = () => {
       });
     }
   };
+  
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center">
@@ -97,13 +101,23 @@ const App: React.FC = () => {
       </header>
       <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-8">
         <main className="w-full lg:w-2/3 flex flex-col items-center justify-center gap-6">
-          <Certificate ref={certificateRef} data={certificateData} />
-          <button 
-            onClick={handleDownload}
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
-          >
-            Download Certificate
-          </button>
+          <div id="printable-area">
+            <Certificate ref={certificateRef} data={certificateData} />
+          </div>
+          <div className="flex gap-4">
+            <button 
+              onClick={handleDownload}
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+            >
+              Download Certificate
+            </button>
+            <button 
+              onClick={handlePrint}
+              className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+            >
+              Print Certificate
+            </button>
+          </div>
         </main>
         <aside className="w-full lg:w-1/3 bg-gray-800 p-6 rounded-lg shadow-xl h-fit">
           <InputForm

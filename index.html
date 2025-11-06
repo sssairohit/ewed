@@ -24,6 +24,41 @@
       html {
         font-size: 10px;
       }
+      @media print {
+        body, html {
+          background: white !important;
+        }
+        /* Hide everything on the page by default */
+        body * {
+          visibility: hidden;
+        }
+        /* Make the printable area and its children visible */
+        #printable-area, #printable-area * {
+          visibility: visible;
+        }
+        /* Position the printable area to fill the page */
+        #printable-area {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: auto;
+          padding: 1rem;
+          box-sizing: border-box;
+        }
+        /* Target the certificate div directly for print-specific styling */
+        #printable-area > div {
+          background-color: #ffffff !important;
+          border: 4px double #000000 !important;
+          box-shadow: none !important;
+          transform: none !important; /* Disable hover effect */
+        }
+        /* Force all text and borders within the certificate to be black for printing */
+        #printable-area > div * {
+          color: #000000 !important;
+          border-color: #000000 !important;
+        }
+      }
     </style>
 <script type="importmap">
 {

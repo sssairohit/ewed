@@ -12,9 +12,17 @@ interface CertificateProps {
   data: CertificateData;
 }
 
-const HeartIcon: React.FC = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-rose-300" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+const WeddingRingsIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <circle cx="9" cy="12" r="7" />
+      <circle cx="15" cy="12" r="7" />
     </svg>
 );
 
@@ -42,7 +50,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
           <h2 className="text-2xl md:text-3xl font-semibold mt-4 text-stone-900">{data.userName}</h2>
         </div>
         
-        <span className="text-6xl md:text-7xl text-amber-800">&</span>
+        <WeddingRingsIcon className="w-20 h-20 md:w-24 md:h-24 text-amber-800" />
 
         <div className="text-center">
           <img

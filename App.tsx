@@ -82,7 +82,7 @@ const App: React.FC = () => {
         scale: 2, // Increase resolution for better quality
       }).then((canvas: HTMLCanvasElement) => {
         const link = document.createElement('a');
-        link.download = 'e-wed-certificate.png';
+        link.download = 'ewed-certificate.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
       });
@@ -96,7 +96,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center">
       <header className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">E-Wed Certificate Generator</h1>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">ewed</h1>
         <p className="text-gray-400 mt-2">Create your dream marriage certificate, witnessed by the Dark Knight himself.</p>
       </header>
       <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-8">

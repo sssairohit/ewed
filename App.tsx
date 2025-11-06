@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { Certificate } from './components/Certificate';
 import { InputForm } from './components/InputForm';
-import { generateBatmanWitnessStatement } from './services/geminiService';
+import { generateBatmanWitnessStatement, generateCelebrityImage } from './services/geminiService';
 
 interface CertificateData {
   userName: string;
@@ -35,17 +35,22 @@ const App: React.FC = () => {
     setError(null);
 
     try {
-      const statement = await generateBatmanWitnessStatement("Your Name", celebrityInput);
+      // Generate statement and image in parallel
+      const [statement, celebrityPhotoUrl] = await Promise.all([
+        generateBatmanWitnessStatement("Your Name", celebrityInput),
+        generateCelebrityImage(celebrityInput)
+      ]);
+      
       setCertificateData({
         userName: "Your Name",
         userPhoto: `https://picsum.photos/seed/you/400/400`,
         celebrityName: celebrityInput,
-        celebrityPhoto: `https://picsum.photos/seed/${encodeURIComponent(celebrityInput)}/400/400`,
+        celebrityPhoto: celebrityPhotoUrl,
         witnessStatement: statement,
       });
     } catch (err) {
       console.error(err);
-      setError('Failed to generate witness statement. The shadows are unforgiving today.');
+      setError('Failed to generate certificate details. The shadows are unforgiving today.');
     } finally {
       setIsLoading(false);
     }

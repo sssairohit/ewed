@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface InputFormProps {
@@ -6,6 +5,10 @@ interface InputFormProps {
   setCelebrityName: (name: string) => void;
   onUserPhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   userPhotoPreview: string | null;
+  userVows: string;
+  setUserVows: (vows: string) => void;
+  celebrityVows: string;
+  setCelebrityVows: (vows: string) => void;
   onSubmit: () => void;
   isLoading: boolean;
 }
@@ -16,7 +19,11 @@ export const InputForm: React.FC<InputFormProps> = ({
   onSubmit, 
   isLoading, 
   onUserPhotoChange,
-  userPhotoPreview 
+  userPhotoPreview,
+  userVows,
+  setUserVows,
+  celebrityVows,
+  setCelebrityVows,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +64,36 @@ export const InputForm: React.FC<InputFormProps> = ({
           onChange={(e) => setCelebrityName(e.target.value)}
           placeholder="e.g., Keanu Reeves"
           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          disabled={isLoading}
+        />
+      </div>
+      
+      <div>
+        <label htmlFor="user-vows" className="block text-sm font-medium text-gray-300 mb-2">
+          Your Vows
+        </label>
+        <textarea
+          id="user-vows"
+          value={userVows}
+          onChange={(e) => setUserVows(e.target.value)}
+          placeholder="I promise to always..."
+          className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          rows={3}
+          disabled={isLoading}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="celebrity-vows" className="block text-sm font-medium text-gray-300 mb-2">
+          Celebrity's Vows
+        </label>
+        <textarea
+          id="celebrity-vows"
+          value={celebrityVows}
+          onChange={(e) => setCelebrityVows(e.target.value)}
+          placeholder="I vow to cherish you..."
+          className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          rows={3}
           disabled={isLoading}
         />
       </div>

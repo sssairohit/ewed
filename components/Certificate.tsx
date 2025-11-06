@@ -6,6 +6,8 @@ interface CertificateData {
   celebrityName: string;
   celebrityPhoto: string;
   witnessStatement: string;
+  userVows: string;
+  celebrityVows: string;
 }
 
 interface CertificateProps {
@@ -63,7 +65,20 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ data 
       </div>
       
       <div className="text-center text-stone-700 text-lg my-8">
-        <p>were united in matrimony on this glorious day.</p>
+        <p>were united in matrimony on this glorious day, sealing their union with these vows.</p>
+      </div>
+
+      <div className="my-10 border-t border-b border-amber-300 py-6 px-4">
+        <div className="flex flex-col md:flex-row gap-8 justify-center text-center">
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-stone-800 mb-2">{data.userName}'s Vows</h3>
+            <p className="italic text-stone-600">"{data.userVows}"</p>
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-stone-800 mb-2">{data.celebrityName}'s Vows</h3>
+            <p className="italic text-stone-600">"{data.celebrityVows}"</p>
+          </div>
+        </div>
       </div>
 
       <blockquote className="text-center italic text-stone-600 border-l-4 border-amber-300 pl-4 my-10 max-w-2xl mx-auto">

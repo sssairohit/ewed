@@ -12,11 +12,15 @@ interface CertificateData {
   celebrityName: string;
   celebrityPhoto: string;
   witnessStatement: string;
+  userVows: string;
+  celebrityVows: string;
 }
 
 const App: React.FC = () => {
   const [celebrityInput, setCelebrityInput] = useState<string>('');
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
+  const [userVows, setUserVows] = useState<string>('');
+  const [celebrityVows, setCelebrityVows] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const certificateRef = useRef<HTMLDivElement>(null);
@@ -29,6 +33,8 @@ const App: React.FC = () => {
     celebrityName: "A Celebrity",
     celebrityPhoto: `https://picsum.photos/seed/celebrity/400/400`,
     witnessStatement: "In the shadows of Gotham, I have observed this union. It is a beacon in the night. This bond is now under my watch. Justice has been served.",
+    userVows: "From this day forward, you shall not walk alone. My heart will be your shelter, and my arms will be your home.",
+    celebrityVows: "I vow to be your navigator and sidekick in all of life’s adventures, and to always find a way to make you laugh.",
   });
 
   const handleUserPhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +72,8 @@ const App: React.FC = () => {
         celebrityName: celebrityInput,
         celebrityPhoto: celebrityPhotoUrl,
         witnessStatement: statement,
+        userVows: userVows || "From this day forward, you shall not walk alone.", // Use input or default
+        celebrityVows: celebrityVows || "I vow to be your navigator in all of life’s adventures.", // Use input or default
       });
     } catch (err) {
       console.error(err);
@@ -73,7 +81,7 @@ const App: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [celebrityInput, userPhoto, defaultUserPhoto]);
+  }, [celebrityInput, userPhoto, defaultUserPhoto, userVows, celebrityVows]);
 
   const handleDownload = () => {
     if (certificateRef.current) {
@@ -125,6 +133,10 @@ const App: React.FC = () => {
             setCelebrityName={setCelebrityInput}
             onUserPhotoChange={handleUserPhotoChange}
             userPhotoPreview={userPhoto}
+            userVows={userVows}
+            setUserVows={setUserVows}
+            celebrityVows={celebrityVows}
+            setCelebrityVows={setCelebrityVows}
             onSubmit={handleGenerateCertificate}
             isLoading={isLoading}
           />
